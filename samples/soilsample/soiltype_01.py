@@ -59,14 +59,14 @@ class SoilsampleConfig(Config):
     Derives from the base Config class and overrides some values.
     """
     # Give the configuration a recognizable name
-    NAME = "soiltype"
+    NAME = "soilsample"
 
     # We use a GPU with 12GB memory, which can fit two images.
     # Adjust down if you use a smaller GPU.
     IMAGES_PER_GPU = 2
 
     # Number of classes (including background)
-    NUM_CLASSES = 1 + 16  # Background + soilsample
+    NUM_CLASSES = 1 + 1  # Background + soilsample
 
     # Number of training steps per epoch
     STEPS_PER_EPOCH = 100
@@ -137,20 +137,13 @@ class SoilsampleDataset(utils.Dataset):
             # the outline of each object instance. These are stores in the
             # shape_attributes (see json format above)
             # The if condition is needed to support VIA versions 1.x and 2.x.
-            
-            polygons = []
-            objects = []
-            
             if type(a['regions']) is dict:
-              for r in a['regions'].values():
-                polygons.append(r['shape_attributes'])
-                objects.append(r['region_attributes'])
+                polygons = [r['shape_attributes'] for r in a['regions'].values()]
+                objects = [s['region_attributes'] for s in a['regions'].values()]
             else:
-              for r in a['regions']:
-                polygons.append(r['shape_attributes'])
-                objects.append(r['region_attributes']) 
+                polygons = [r['shape_attributes'] for r in a['regions']]
+                objects = [s['region_attributes'] for s in a['regions']] 
             num_ids = [int(n['soiltype']) for n in objects]
-            print(num_ids)
             # load_mask() needs the image size to convert polygons to masks.
             # Unfortunately, VIA doesn't include it in JSON, so we must read
             # the image. This is only managable since the dataset is tiny.
@@ -159,7 +152,7 @@ class SoilsampleDataset(utils.Dataset):
             height, width = image.shape[:2]
 
             self.add_image(
-                "soiltype",
+                "soilsample",
                 image_id=a['filename'],  # use file name as a unique image id
                 path=image_path,
                 width=width, height=height,
