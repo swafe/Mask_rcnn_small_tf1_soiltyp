@@ -182,7 +182,7 @@ class SoilsampleDataset(utils.Dataset):
         image_info = self.image_info[image_id]
         if image_info["source"] != "soiltype":
             return super(self.__class__, self).load_mask(image_id)
-        num_ids = info['num_ids']
+        num_ids = image_info['num_ids']
         # Convert polygons to a bitmap mask of shape
         # [height, width, instance_count]
         info = self.image_info[image_id]
