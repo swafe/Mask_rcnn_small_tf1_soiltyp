@@ -108,6 +108,7 @@ class SoilsampleDataset(utils.Dataset):
         self.add_class("soiltype",13,"Torf + Sand")
         self.add_class("soiltype",14,"Braunkohle + Holz")
         self.add_class("soiltype",15,"Auff\u00c3\u00bcllung")
+
         # Train or validation dataset?
         assert subset in ["train", "val"]
         dataset_dir = os.path.join(dataset_dir, subset)
@@ -154,7 +155,7 @@ class SoilsampleDataset(utils.Dataset):
                 polygons.append(r['shape_attributes'])
                 objects.append(r['region_attributes']) 
             num_ids = [int(n['soiltype']) for n in objects]
-            print(num_ids)
+            # print(num_ids)
             # load_mask() needs the image size to convert polygons to masks.
             # Unfortunately, VIA doesn't include it in JSON, so we must read
             # the image. This is only managable since the dataset is tiny.
