@@ -1,4 +1,8 @@
 """
+multi class detection:
+
+https://github.com/CrookedNoob/Mask_RCNN-Multi-Class-Detection
+
 Mask R-CNN
 Train on the toy soilsample dataset and implement color splash effect.
 
@@ -88,22 +92,22 @@ class SoilsampleDataset(utils.Dataset):
         """
         # Add classes. We have only one class to add.
         #self.add_class("soilsample", 1, "soilsample")
-        self.add_class("soiltype",1,"Mutterboden")
-        self.add_class("soiltype",2,"Schluff")
-        self.add_class("soiltype",3,"Klei")
-        self.add_class("soiltype",4,"Torf")
-        self.add_class("soiltype",5,"Sand")
-        self.add_class("soiltype",6,"Feinsand")
-        self.add_class("soiltype",7,"Mittelsand")
-        self.add_class("soiltype",8,"Plastik")
-        self.add_class("soiltype",9,"Unbekannt")
-        self.add_class("soiltype",10,"Darg")
-        self.add_class("soiltype",11,"Mudde")
-        self.add_class("soiltype",12,"Grobdsand")
-        self.add_class("soiltype",13,"Wurzeln")
-        self.add_class("soiltype",14,"Torf + Sand")
-        self.add_class("soiltype",15,"Braunkohle + Holz")
-        self.add_class("soiltype",16,"Auffüllung")
+        self.add_class("soiltype",0,"Mutterboden")
+        self.add_class("soiltype",1,"Schluff")
+        self.add_class("soiltype",2,"Klei")
+        self.add_class("soiltype",3,"Torf")
+        self.add_class("soiltype",4,"Sand")
+        self.add_class("soiltype",5,"Feinsand")
+        self.add_class("soiltype",6,"Mittelsand")
+        self.add_class("soiltype",7,"Plastik")
+        self.add_class("soiltype",8,"Unbekannt")
+        self.add_class("soiltype",9,"Darg")
+        self.add_class("soiltype",10,"Mudde")
+        self.add_class("soiltype",11,"Grobdsand")
+        self.add_class("soiltype",12,"Wurzeln")
+        self.add_class("soiltype",13,"Torf + Sand")
+        self.add_class("soiltype",14,"Braunkohle + Holz")
+        self.add_class("soiltype",15,"Auff\u00c3\u00bcllung")
         # Train or validation dataset?
         assert subset in ["train", "val"]
         dataset_dir = os.path.join(dataset_dir, subset)
