@@ -231,7 +231,7 @@ def train(model):
     print("Training network heads")
     model.train(dataset_train, dataset_val,
                 learning_rate=config.LEARNING_RATE,
-                custom_callbacks = [tensorboard_callback]
+                custom_callbacks = [tensorboard_callback],
                 epochs=15,
                 layers='heads',
                 augmentation = imgaug.augmenters.Sometimes(5/6,imgaug.augmenters.OneOf([ 
