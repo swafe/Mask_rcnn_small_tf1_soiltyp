@@ -76,7 +76,7 @@ class SoilsampleConfig(Config):
     STEPS_PER_EPOCH = 100
 
     # Skip detections with < 90% confidence
-    DETECTION_MIN_CONFIDENCE = 0.3
+    DETECTION_MIN_CONFIDENCE = 0.7
 
 
 ############################################################
