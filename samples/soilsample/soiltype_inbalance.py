@@ -210,6 +210,13 @@ class SoilsampleDataset(utils.Dataset):
         else:
             super(self.__class__, self).image_reference(image_id)
 
+# CLASS_WEIGHTS = { 1:5,  2:12,  3:75, 4:32, 5:3, 6:210, 7:76, 8:96, 9:6, 10:2, 11:1, 12:11, 13:3, 14:3, 15,0, 16:0} #train
+# def compute_class_weights(CLASS_WEIGHTS=CLASS_WEIGHTS):
+#     mean = np.array(list(CLASS_WEIGHTS.values())).mean() # sum_class_occurence / nb_classes
+#     max_weight = np.array(list(CLASS_WEIGHTS.values())).max()
+#     CLASS_WEIGHTS.update((x, float(max_weight/(y))) for x, y in CLASS_WEIGHTS.items())
+#     CLASS_WEIGHTS=dict(sorted(CLASS_WEIGHTS.items()))
+#     return CLASS_WEIGHTS    
 
 def train(model):
     """Train the model."""
@@ -233,6 +240,7 @@ def train(model):
                 learning_rate=config.LEARNING_RATE,
                 epochs=15,
                 layers='heads',
+                class_weight=None
                 augmentation = imgaug.augmenters.Sometimes(5/6,imgaug.augmenters.OneOf([ 
                     imgaug.augmenters.Fliplr(1), 
                     imgaug.augmenters.Flipud(1), 

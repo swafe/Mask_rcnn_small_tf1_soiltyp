@@ -2342,9 +2342,9 @@ class MaskRCNN():
         # Callbacks
         callbacks = [
             keras.callbacks.TensorBoard(log_dir=self.log_dir,
-                                        histogram_freq=1, write_graph=True, write_images=False),
+                                        histogram_freq=0, write_graph=True, write_images=False),
             keras.callbacks.ModelCheckpoint(self.checkpoint_path,
-                                            verbose=0, save_weights_only=None),
+                                            verbose=0, save_weights_only=True),
         ]
 
         # Add custom callbacks to the list
@@ -2376,7 +2376,7 @@ class MaskRCNN():
                 max_queue_size=100,
                 workers=workers,
                 use_multiprocessing=True,
-            )
+                )
             self.epoch = max(self.epoch, epochs)
         else:
             self.keras_model.fit_generator(
@@ -2391,7 +2391,7 @@ class MaskRCNN():
                 workers=workers,
                 use_multiprocessing=True,
                 class_weight = class_weight #modified : added to the fit_generator for class_wieghts
-            )
+                )
             self.epoch = max(self.epoch, epochs)
 
 
