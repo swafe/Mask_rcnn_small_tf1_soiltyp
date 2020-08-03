@@ -190,7 +190,7 @@ class SoilsampleDataset(utils.Dataset):
                         dtype=np.uint8)
         for i, p in enumerate(info["polygons"]):
             if p['name'] == 'rect':
-              p['all_points_y'], p['all_points_x'] = [p['y'], p['y'] + p['height'], p['y'], p['y'] + p['height']], [p['x'], p['x'] + p['width'], p['x'] + p['width'], p['x']]
+              p['all_points_y'], p['all_points_x'] = [p['y'], p['y'], p['y'] + p['height'], p['y'] + p['height']], [p['x'], p['x'] + p['width'], p['x'] + p['width'], p['x']]
             # Get indexes of pixels inside the polygon and set them to 1
             rr, cc = skimage.draw.polygon(p['all_points_y'], p['all_points_x'])
             mask[rr, cc, i] = 1
