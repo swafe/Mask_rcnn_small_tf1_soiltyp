@@ -107,7 +107,7 @@ class SoilsampleDataset(utils.Dataset):
         self.add_class("soiltype",12,"Wurzeln")
         self.add_class("soiltype",13,"Torf + Sand")
         self.add_class("soiltype",14,"Braunkohle + Holz")
-        self.add_class("soiltype",15,"Auff\u00c3\u00bcllung")
+        self.add_class("soiltype",15,"Auffuellung")
 
         # Train or validation dataset?
         assert subset in ["train", "val",'test']
