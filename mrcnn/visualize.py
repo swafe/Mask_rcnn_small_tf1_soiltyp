@@ -166,11 +166,9 @@ def display_instances(image, boxes, masks, class_ids, class_names,
                 p = Polygon(verts, facecolor="none", edgecolor=color)
                 ax.add_patch(p)
     ax.imshow(masked_image.astype(np.uint8))
+    plt.legend(loc=2, prop={'size': 13})
     plt.savefig(path_to_image, bbox_inches='tight', orientation= 'landscape') # pad_inches=-0.5,
     if auto_show:
-        # handles, labels = ax.get_legend_handles_labels()
-        #ax.legend(handles, labels)
-        plt.legend(loc=2, prop={'size': 13})
         plt.show()
 
 

@@ -652,10 +652,36 @@ def trim_zeros(x):
     assert len(x.shape) == 2
     return x[~np.all(x == 0, axis=1)]
 
+def compute_matches_classwise(gt_boxes, gt_class_ids, gt_masks, 
+                            pred_boxes, pred_class_ids, pred_scores, pred_masks, class_id,
+                            iou_threshold=0.5, score_threshold=0.5):
+    """Finds matches between prediction and ground truth instances."
+    Returns:
+        gt_match: 1-D array. For each GT box it has the index of the matched
+                predicted box.
+        pred_match: 1-D array. For each predicted box, it has the index of
+                    the matched ground truth box.
+        overlaps: [pred_boxes, gt_boxes] IoU overlaps.
+    """
+    # Trim zero padding
+    # TODO: cleaner to do zero unpadding upstream
+
+    #print("gt_masks",gt_masks.shape)
+
+    #print("gt_class_ids",gt_class_ids.shape)
+    #pred_class_ids=np.array(pred_class_ids)
+    gt_boxes=gt_boxes[np.where(gt_class_ids==class_id)]
+    gt_masks=gt_masks[:,:,gt_class_ids==class_id]
+    pred_boxes=pred_boxes[np.where(pred_class_ids==class_id)]
+    pred_scores=pred_scores[np.where(pred_class_ids==class_id)]
+    pred_masks=pred_masks[:,:,pred_class_ids==class_id]
+    pred_class_ids=np.delete(pred_class_ids,np.where(pred_class_ids!=class_id))
+    gt_class_ids=np.delete(gt_class_ids,np.where(gt_class_ids!=class_id))
+
 
 def compute_matches(gt_boxes, gt_class_ids, gt_masks,
                     pred_boxes, pred_class_ids, pred_scores, pred_masks,
-                    iou_threshold=0.5, score_threshold=0.0):
+                    iou_threshold=0.5, score_threshold=0.0, overlaps_mask_or_bbox = 'mask'):
     """Finds matches between prediction and ground truth instances.
 
     Returns:
@@ -663,7 +689,8 @@ def compute_matches(gt_boxes, gt_class_ids, gt_masks,
                   predicted box.
         pred_match: 1-D array. For each predicted box, it has the index of
                     the matched ground truth box.
-        overlaps: [pred_boxes, gt_boxes] IoU overlaps.
+        overlaps: [pred_boxes, gt_boxes] IoU overlaps. 
+        overlaps_mask_or_bbox: 'mask' or  'bbox'
     """
     # Trim zero padding
     # TODO: cleaner to do zero unpadding upstream
@@ -679,8 +706,10 @@ def compute_matches(gt_boxes, gt_class_ids, gt_masks,
     pred_masks = pred_masks[..., indices]
 
     # Compute IoU overlaps [pred_masks, gt_masks]
-    overlaps = compute_overlaps_masks(pred_masks, gt_masks)
-
+    if overlaps_mask_or_box == 'mask':
+        overlaps = compute_overlaps_masks(pred_masks, gt_masks)
+    elif overlaps_mask_or_box = 'bbox':
+        overlaps = compute_overlaps(pred_boxes, gt_boxes)
     # Loop through predictions and find matching ground truth boxes
     match_count = 0
     pred_match = -1 * np.ones([pred_boxes.shape[0]])
