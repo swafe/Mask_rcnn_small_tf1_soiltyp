@@ -680,7 +680,7 @@ def compute_matches_classwise(gt_boxes, gt_class_ids, gt_masks,
 
 
 def compute_matches(gt_boxes, gt_class_ids, gt_masks,
-                    pred_boxes, pred_class_ids, pred_scores, pred_masks,overlaps_mask_or_bbox,
+                    pred_boxes, pred_class_ids, pred_scores, pred_masks,  overlaps_mask_or_bbox,
                     iou_threshold=0.5, score_threshold=0.0):
     """Finds matches between prediction and ground truth instances.
 
@@ -757,7 +757,7 @@ def compute_ap(gt_boxes, gt_class_ids, gt_masks,
     gt_match, pred_match, overlaps = compute_matches(
         gt_boxes, gt_class_ids, gt_masks,
         pred_boxes, pred_class_ids, pred_scores, pred_masks,
-        iou_threshold,overlaps_mask_or_bbox)
+        overlaps_mask_or_bbox, iou_threshold)
 
     # Compute precision and recall at each prediction box step
     precisions = np.cumsum(pred_match > -1) / (np.arange(len(pred_match)) + 1)
