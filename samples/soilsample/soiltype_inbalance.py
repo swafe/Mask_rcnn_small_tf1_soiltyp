@@ -70,7 +70,7 @@ class SoilsampleConfig(Config):
     IMAGES_PER_GPU = 2
 
     # Number of classes (including background)
-    NUM_CLASSES = 1 + 16  # Background + soilsample
+    NUM_CLASSES = 1 + 18  # Background + soilsample
 
     # Number of training steps per epoch
     STEPS_PER_EPOCH = 100
@@ -103,11 +103,13 @@ class SoilsampleDataset(utils.Dataset):
         self.add_class("soiltype",8,"Unbekannt")
         self.add_class("soiltype",9,"Darg")
         self.add_class("soiltype",10,"Mudde")
-        self.add_class("soiltype",11,"Grobdsand")
+        self.add_class("soiltype",11,"Grobsand")
         self.add_class("soiltype",12,"Wurzeln")
         self.add_class("soiltype",13,"Torf + Sand")
         self.add_class("soiltype",14,"Braunkohle + Holz")
         self.add_class("soiltype",15,"Auffuellung")
+        self.add_class("soiltype",16,"Grobschluff")
+        self.add_class("soiltype",17,"Tonstein")
 
         # Train or validation dataset?
         assert subset in ["train", "val",'test']
