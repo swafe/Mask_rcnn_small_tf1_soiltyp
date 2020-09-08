@@ -121,6 +121,19 @@ def display_instances(image, boxes, masks, class_ids, class_names,
     ax.set_title(title)
 
     masked_image = image.astype(np.uint32).copy()
+    shift_y2 = 0
+    switch_VZ = 1
+    y2_min = 0 #image.shape[1]
+    print(boxes)
+    for xy in boxes:
+      if xy[2] > y2_min:
+        y2_min = xy[2]
+    if y2_min >  image.shape[1]-image.shape[1]/4:
+        switch_VZ = -1
+        for xy in boxes:
+          if xy[0] < y2_min:
+            y2_min = xy[0]
+            print(y2_min) 
     for i in range(N):
         if colors == None:
           color = colors[i]
@@ -135,7 +148,7 @@ def display_instances(image, boxes, masks, class_ids, class_names,
             continue
         y1, x1, y2, x2 = boxes[i]
         if show_bbox:
-            p = patches.Rectangle((x1, y1), x2 - x1, y2 - y1, linewidth=8,
+            p = patches.Rectangle((x1, y1), x2 - x1, y2 - y1, linewidth=10,
                                 alpha=0.7, linestyle="dashed",
                                 edgecolor=color, facecolor='none', label = label_class)
             ax.add_patch(p)
@@ -149,9 +162,11 @@ def display_instances(image, boxes, masks, class_ids, class_names,
             caption = score #score #class_id
         else:
             caption = captions[i]
-        ax.text(x1, y1 + image.shape[1]/9, caption,
-                color=color, size=30, backgroundcolor="none")
-
+           
+        ax.text(x1, y2_min + (image.shape[1]/25+shift_y2)* switch_VZ, caption,
+                color=color, size=35, backgroundcolor="none")
+        shift_y2 += image.shape[1]/25
+        print(shift_y2)
         # Mask
         mask = masks[:, :, i]
         if show_mask:
@@ -170,7 +185,7 @@ def display_instances(image, boxes, masks, class_ids, class_names,
                 p = Polygon(verts, facecolor="none", edgecolor=color)
                 ax.add_patch(p)
     ax.imshow(masked_image.astype(np.uint8))
-    plt.legend(loc=2, prop={'size': 30})
+    plt.legend(loc=2, prop={'size': 35})
     plt.savefig(path_to_image, bbox_inches='tight', orientation= 'landscape') # pad_inches=-0.5,
     if auto_show:
         plt.show()
